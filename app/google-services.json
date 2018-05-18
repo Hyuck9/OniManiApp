@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "838215344337",
+    "firebase_url": "https://onimaniapp-768bf.firebaseio.com",
+    "project_id": "onimaniapp-768bf",
+    "storage_bucket": "onimaniapp-768bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838215344337:android:bb9b7b1ba914bb3c",
+        "android_client_info": {
+          "package_name": "kr.co.nexmore.onimaniapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838215344337-vf5c5ao6bp2q4da8rlcbq2vid1a3eg43.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.co.nexmore.onimaniapp",
+            "certificate_hash": "d2e5430103adddd827850f51975ff78a72d69949"
+          }
+        },
+        {
+          "client_id": "838215344337-rsr8kq88hqmnaqrkpbkttk3lfoddut8l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdYZaVgs82zWD6ZvijRXFz_T36eXJeIlg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838215344337-rsr8kq88hqmnaqrkpbkttk3lfoddut8l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
