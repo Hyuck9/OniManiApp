@@ -1,4 +1,4 @@
-package kr.co.nexmore.onimaniapp
+package kr.co.nexmore.onimaniapp.views
 
 import android.content.Intent
 import android.graphics.Color
@@ -10,6 +10,8 @@ import android.view.WindowManager
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.android.synthetic.main.activity_splash.*
+import kr.co.nexmore.onimaniapp.BuildConfig
+import kr.co.nexmore.onimaniapp.R
 
 class SplashActivity : AppCompatActivity() {
 
@@ -20,14 +22,16 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
-        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
         val configSettings = FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build()
-        mFirebaseRemoteConfig.setConfigSettings(configSettings)
 
-        // 인앱 기본값 설정
-        mFirebaseRemoteConfig.setDefaults(R.xml.default_config)
+        FirebaseRemoteConfig.getInstance().run {
+            mFirebaseRemoteConfig = this
+            setConfigSettings(configSettings)
+            // 인앱 기본값 설정
+            setDefaults(R.xml.default_config)
+        }
 
 
     }
@@ -61,6 +65,7 @@ class SplashActivity : AppCompatActivity() {
             builder.create().show()
         } else {
             startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
 }
