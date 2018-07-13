@@ -1,4 +1,4 @@
-package kr.co.nexmore.onimaniapp
+package kr.co.nexmore.onimaniapp.views
 
 import android.content.Intent
 import android.graphics.Color
@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.android.synthetic.main.activity_login.*
+import kr.co.nexmore.onimaniapp.R
 
 class LoginActivity : AppCompatActivity() {
 

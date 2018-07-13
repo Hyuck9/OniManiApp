@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".LoginActivity">
+    tools:context=".views.LoginActivity">
 
     <ImageView
         android:src="@drawable/loading_icon"
@@ -21,7 +21,8 @@
             android:id="@+id/login_et_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="아이디"/>
+            android:hint="아이디"
+            android:inputType="textEmailAddress" />
 
     </android.support.design.widget.TextInputLayout>
 

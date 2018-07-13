@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -89,16 +90,27 @@ class SignupActivity : AppCompatActivity() {
                             .child(uid)
                             .putFile(imageUri!!)
                             .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
-                                @Suppress("DEPRECATION")
-                                val imageUrl = taskSnapshot.result.downloadUrl.toString()
+                                if ( taskSnapshot.isSuccessful ) {
+                                    taskSnapshot.result.storage.downloadUrl.addOnSuccessListener {
+                                        val user = User()
+                                        user.profileUrl = it.toString()
+                                        user.uid = uid
+                                        user.nickName = name
+                                        user.joinedDate = DateUtil.currentDate
 
-                                val user = User()
-                                user.uid = uid
-                                user.nickName = name
-                                user.profileUrl = imageUrl
-                                user.joinedDate = DateUtil.currentDate
+                                        FirebaseDatabase.getInstance().getReference("users").child(uid).setValue(user).addOnCompleteListener {
+                                            //TODO: 로딩 프로그레스 만들기
+                                            if ( it.isSuccessful ) {
+                                                this@SignupActivity.finish()
+                                            } else {
+                                                Toast.makeText(this, "가입 실패 (DB 오류)", Toast.LENGTH_SHORT).show()
+                                            }
+                                        }
 
-                                FirebaseDatabase.getInstance().getReference("users").child(uid).setValue(user)
+                                    }
+                                } else {
+                                    Toast.makeText(this, "사진 업로드 실패", Toast.LENGTH_SHORT).show()
+                                }
                             }
                 }
     }

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".SignupActivity">
+    tools:context=".views.SignupActivity">
     
     <ImageView
         android:id="@+id/signup_iv_profile"
-        android:src="@drawable/ic_add_to_photos_black_24dp"
+        app:srcCompat="@drawable/ic_add_to_photos_black_24dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="50dp"/>
@@ -21,17 +22,19 @@
             android:id="@+id/signup_et_email"
             android:hint="이메일"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <EditText
-            android:id="@+id/signup_et_name"
-            android:hint="이름"
+            android:id="@+id/signup_et_nickname"
+            android:hint="닉네임"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
