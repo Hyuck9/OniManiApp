@@ -94,6 +94,7 @@ class SignupActivity : AppCompatActivity() {
                                     taskSnapshot.result.storage.downloadUrl.addOnSuccessListener {
                                         val user = User()
                                         user.profileUrl = it.toString()
+                                        user.email = email
                                         user.uid = uid
                                         user.nickName = name
                                         user.joinedDate = DateUtil.currentDate

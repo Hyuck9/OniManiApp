@@ -14,14 +14,14 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/main_a_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:layout_height="?android:attr/actionBarSize"
+            android:background="?android:attr/colorPrimary"
             app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/main_a_tabs"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
             app:tabMode="fixed"
             app:tabGravity="fill" />
 
@@ -37,6 +37,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="180dp"
         app:backgroundTint="@color/fab1_color"
+        android:visibility="invisible"
         app:srcCompat="@drawable/ic_add_location_white_24dp" />
 
     <android.support.design.widget.FloatingActionButton
@@ -47,6 +48,7 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="100dp"
         app:backgroundTint="@color/fab2_color"
+        android:visibility="invisible"
         app:srcCompat="@drawable/ic_person_add_white_24dp" />
 
     <android.support.design.widget.FloatingActionButton
