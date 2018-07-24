@@ -5,6 +5,7 @@ import android.support.annotation.NonNull
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,18 +17,10 @@ import kotlinx.android.synthetic.main.fragment_friends.*
 import kotlinx.android.synthetic.main.fragment_friends.view.*
 import kr.co.nexmore.onimaniapp.R
 import kr.co.nexmore.onimaniapp.adapters.FriendListAdapter
+import kr.co.nexmore.onimaniapp.common.utils.ItemClickSupport
 import kr.co.nexmore.onimaniapp.models.User
 
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [FriendFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [FriendFragment.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class FriendFragment : Fragment() {
 
     private lateinit var mCurrentUser: FirebaseUser
@@ -59,6 +52,22 @@ class FriendFragment : Fragment() {
         retView.friends_f_rv_friend_list.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = mFriendListAdapter
+
+            /* item Click Listener */
+            ItemClickSupport.addTo(this).setOnItemClickListener(object: ItemClickSupport.OnItemClickListener {
+                override fun onItemClicked(recyclerView: RecyclerView, position: Int, v: View) {
+                    selectionModeItemClick(position)
+                }
+            })
+
+            /* item Long Click Listener */
+            ItemClickSupport.addTo(this).setOnItemLongClickListener(object: ItemClickSupport.OnItemLongClickListener {
+                override fun onItemLongClicked(recyclerView: RecyclerView, position: Int, v: View): Boolean {
+                    setSelectionMode(position)
+                    return true
+                }
+            })
+
         }
 
         addFriendListener()
@@ -66,6 +75,23 @@ class FriendFragment : Fragment() {
         return retView
     }
 
+    private fun setSelectionMode(position: Int) {
+        val friend = mFriendListAdapter!!.getItem(position)
+
+        if ( mFriendListAdapter!!.getSelectionMode() == FriendListAdapter.UN_SELECTION_MODE ) {
+            mainCtx.fabFriendDeleteMode()
+            friend.isSelection = true
+            mFriendListAdapter!!.setSelectionMode(FriendListAdapter.SELECTION_MODE)
+        }
+    }
+    private fun selectionModeItemClick(position: Int) {
+        val friend = mFriendListAdapter!!.getItem(position)
+
+        if ( mFriendListAdapter!!.getSelectionMode() == FriendListAdapter.SELECTION_MODE ) {
+            friend.isSelection = !friend.isSelection
+            mFriendListAdapter!!.notifyItemChanged(position)
+        }
+    }
 
     /**
      * FirebaseDatabase에서 친구목록을 가지고와서 mFriendListAdapter에 추가
@@ -96,11 +122,15 @@ class FriendFragment : Fragment() {
     }
 
     fun deleteFriend() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO: 친구삭제 로직 추가
+
+        mFriendListAdapter!!.allUnSelect()
+        mFriendListAdapter!!.setSelectionMode(FriendListAdapter.UN_SELECTION_MODE)
     }
 
     fun cancelDeleteFriend() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mFriendListAdapter!!.allUnSelect()
+        mFriendListAdapter!!.setSelectionMode(FriendListAdapter.UN_SELECTION_MODE)
     }
 
     /** 친구 추가 시 받아온 email 주소로 FireBaseDatabase 검색 */
@@ -122,6 +152,7 @@ class FriendFragment : Fragment() {
                         Snackbar.make(friends_f_rv_friend_list, "이미 등록된 친구입니다.", Snackbar.LENGTH_LONG).show()
                         return
                     }
+
                 }
 
                 // 여기까지 왔으면 등록되지 않은 친구
@@ -138,8 +169,6 @@ class FriendFragment : Fragment() {
     private fun userValidation(inputEmail: String?) {
         mAllUserDBRef.addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val userCount = snapshot.childrenCount
-                var loopCount = 1
 
                 snapshot.children.iterator().forEach {
                     val user = it.getValue(User::class.java)
@@ -147,14 +176,10 @@ class FriendFragment : Fragment() {
                         // user db에 inputEmail이 존재 하면 친구 추가
                         // TODO: 친구 수락 기능 넣어야 함
                         addFriend(user)
-                    } else {
-                        // TODO: return 위치 변경 테스트
-                        if ( userCount <= loopCount++ ) {
-                            Snackbar.make(friends_f_rv_friend_list, "가입을 하지 않은 사용자입니다.", Snackbar.LENGTH_LONG).show()
-                            return
-                        }
+                        return
                     }
                 }
+                Snackbar.make(friends_f_rv_friend_list, "가입을 하지 않은 사용자입니다.", Snackbar.LENGTH_LONG).show()
             }
 
             override fun onCancelled(error: DatabaseError) {

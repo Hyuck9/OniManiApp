@@ -12,11 +12,11 @@ import kr.co.nexmore.onimaniapp.models.User
 class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
 
     companion object {
-        const val UNSELECTION_MODE = 1
+        const val UN_SELECTION_MODE = 1
         const val SELECTION_MODE = 2
     }
 
-    private var selectionMode = UNSELECTION_MODE
+    private var selectionMode = UN_SELECTION_MODE
 
     private val friendList = mutableListOf<User>()
 
@@ -29,6 +29,14 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
         return this.selectionMode
     }
 
+    /** 체크한 친구 해제 */
+    fun allUnSelect() {
+        friendList.forEach {
+            it.isSelection = false
+        }
+    }
+
+    /** 친구 아이템 추가 */
     fun addItem(friend: User) {
         this.friendList.add(friend)
         notifyDataSetChanged()
@@ -50,7 +58,7 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
                 friend.profileUrl?.let { url ->
                     Glide.with(itemView.context)
                             .load(url)
-                            // .apply(RequestOptions().circleCrop()) RoundedImageView 사용으로 인해 해당 옵션 사용 안함
+                            // .apply(RequestOptions().circleCrop()) // RoundedImageView 사용으로 인해 해당 옵션 사용 안함
                             .into(thumbnail)
                 }
 
@@ -59,24 +67,12 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
                     setOnCheckedChangeListener { _, isChecked ->
                         friend.isSelection = isChecked
                     }
-                    visibility = if ( getSelectionMode() == UNSELECTION_MODE ) {
+                    visibility = if ( getSelectionMode() == UN_SELECTION_MODE ) {
                         View.GONE
                     } else {
                         View.VISIBLE
                     }
                 }
-                /*friendSelectedView.isChecked = friend.isSelection
-                friendSelectedView.setOnCheckedChangeListener { _, isChecked ->
-                    friend.isSelection = isChecked
-                }
-                if ( this@FriendListAdapter.selectionMode == UNSELECTION_MODE ) {
-                    friendSelectedView.visibility = View.GONE
-                } else {
-                    friendSelectedView.visibility = View.VISIBLE
-                }*/
-
-                itemView.setOnClickListener(null)
-                itemView.setOnLongClickListener(null)
 
             }
         }
@@ -86,7 +82,6 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
 
 
     inner class Holder(view: View?) : RecyclerView.ViewHolder(view) {
-        val cardView = itemView.friend_i_cardView!!
         val thumbnail = itemView.friend_i_thumb!!
         val friendSelectedView = itemView.friend_i_checkbox!!
         val nickNameView = itemView.friend_i_tv_name!!

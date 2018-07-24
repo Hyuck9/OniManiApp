@@ -154,12 +154,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     /** 친구 삭제 모드 */
-    private fun fabFriendDeleteMode() {
+    fun fabFriendDeleteMode() {
         isFriendDeleteMode = true
         main_a_fab_main.startAnimation(fabRClockWise)
     }
     /** 친구 삭제 모드 해제 */
-    private fun fabFriendUnDeleteMode() {
+    fun fabFriendUnDeleteMode() {
         isFriendDeleteMode = false
         main_a_fab_main.startAnimation(fabRAntiClockWise)
     }
@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         main_c_viewpager.adapter = mPagerAdapter
     }
 
-    /** 방생성 시 방 멤버 추가 */
+    /** 방생성 시 방 멤버 추가?????????????????????????? */
     fun addMember(friend: User) {
         mFriendList.add(friend)
     }
