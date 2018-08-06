@@ -110,8 +110,21 @@ class MainActivity : AppCompatActivity() {
 
         /* 방 생성 fab 클릭 리스너 */
         main_a_fab_create_room.setOnClickListener {
-
+            startPlaceSelectActivity()
+//            if (  ) {
+//
+//            } else {
+//
+//            }
         }
+    }
+
+    /** 방 생성 시 맵 선택 화면 열기 */
+    private fun startPlaceSelectActivity() {
+        val intent = Intent(this, PlaceSelectActivity::class.java)
+        intent.putExtra("myFriends", ArrayList(mFriendList))
+        startActivity(intent)
+        fabCloseAction()
     }
 
     /** 메인 fab 클릭 액션 */
