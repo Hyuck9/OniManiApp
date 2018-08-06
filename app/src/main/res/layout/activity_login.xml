@@ -9,7 +9,7 @@
     tools:context=".views.LoginActivity">
 
     <ImageView
-        android:src="@drawable/loading_icon"
+        android:src="@drawable/ic_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

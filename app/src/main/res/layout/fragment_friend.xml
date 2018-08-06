@@ -6,14 +6,14 @@
     tools:context=".views.FriendFragment">
 
     <TextView
-        android:id="@+id/friends_f_tv_none_friend"
+        android:id="@+id/friend_f_tv_none_friend"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/none_friend_txt" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/friends_f_rv_friend_list"
+        android:id="@+id/friend_f_rv_friend_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground"/>

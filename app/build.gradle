@@ -42,4 +42,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.7.1'
 }
 
+androidExtensions {
+    // 실험실 기능 활성화 (layoutContainer 사용하기 위해)
+    experimental = true
+}
 apply plugin: 'com.google.gms.google-services'

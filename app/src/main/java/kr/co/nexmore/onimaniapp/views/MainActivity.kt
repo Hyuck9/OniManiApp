@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
         main_a_fab_main.startAnimation(fabRClockWise)
     }
     /** 친구 삭제 모드 해제 */
-    fun fabFriendUnDeleteMode() {
+    private fun fabFriendUnDeleteMode() {
         isFriendDeleteMode = false
         main_a_fab_main.startAnimation(fabRAntiClockWise)
     }
