@@ -21,9 +21,11 @@ import kr.co.nexmore.onimaniapp.R
 import kr.co.nexmore.onimaniapp.common.utils.DateUtil
 import kr.co.nexmore.onimaniapp.models.User
 
-const val PICK_FROM_ALBUM = 10
-
 class SignupActivity : AppCompatActivity() {
+
+    companion object {
+        private const val PICK_FROM_ALBUM = 10
+    }
 
     private var splashBackground: String? = null
 

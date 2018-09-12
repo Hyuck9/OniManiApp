@@ -32,7 +32,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".views.AddFriendActivity" />
         <activity android:name=".views.MeetingActivity" />
-        <activity android:name=".views.PlaceSelectActivity"></activity>
+        <activity android:name=".views.PlaceSelectActivity" />
+        <activity android:name=".views.CreateRoomActivity"></activity>
     </application>
 
 </manifest>

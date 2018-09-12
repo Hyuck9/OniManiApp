@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_appoint.*
-import kotlinx.android.synthetic.main.item_appoint.view.*
 import kr.co.nexmore.onimaniapp.R
 import kr.co.nexmore.onimaniapp.models.Meet
 
@@ -17,7 +15,7 @@ class AppointListAdapter : RecyclerView.Adapter<AppointListAdapter.Holder>() {
     private var lastPosition = -1
 
     fun addItem(meet: Meet) {
-        this.mMeetList.add(Meet())
+        this.mMeetList.add(meet)
         notifyDataSetChanged()
     }
 
@@ -80,6 +78,6 @@ class AppointListAdapter : RecyclerView.Adapter<AppointListAdapter.Holder>() {
 //        val rootView = itemView.appoint_i_ll_rootView!!
 //    }
 
-    inner class Holder(view: View) : AndroidExtentionsViewHolder(view)
+    inner class Holder(view: View) : AndroidExtensionsViewHolder(view)
 
 }

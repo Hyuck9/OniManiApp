@@ -4,13 +4,13 @@
     <string name="title_activity_main">MainActivity</string>
 
 
-    <string name="kakao_app_key">60ad525a956558e61ee2fa7589f6011c</string>
+    <string name="kakao_app_key">59a055ff71f00bbb58473fba1ecc48ac</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="none_friend_txt">등록된 친구가 없습니다.</string>
     <string name="none_meet_txt">설정된 약속이 없습니다.</string>
 
     <string name="transition_name_add_friend" translatable="false">add_friend</string>
     <string name="transition_name_create_room" translatable="false">create_room</string>
+    <string name="ok_btn">확인</string>
 </resources>

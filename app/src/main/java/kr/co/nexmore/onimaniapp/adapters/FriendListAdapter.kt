@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.item_friend.view.*
+import kotlinx.android.synthetic.main.item_friend.*
 import kr.co.nexmore.onimaniapp.R
 import kr.co.nexmore.onimaniapp.models.User
 
@@ -53,16 +53,16 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
     override fun onBindViewHolder(holder: Holder, position: Int) {
         friendList[position].let { friend ->
             with(holder) {
-                nickNameView.text = friend.nickName
-                emailView.text = friend.email
+                friend_i_tv_name.text = friend.nickName
+                friend_i_tv_email.text = friend.email
                 friend.profileUrl?.let { url ->
-                    Glide.with(itemView.context)
+                    Glide.with(itemView)
                             .load(url)
                             // .apply(RequestOptions().circleCrop()) // RoundedImageView 사용으로 인해 해당 옵션 사용 안함
-                            .into(thumbnail)
+                            .into(friend_i_thumb)
                 }
 
-                friendSelectedView.run {
+                friend_i_checkbox.run {
                     isChecked = friend.isSelection
                     setOnCheckedChangeListener { _, isChecked ->
                         friend.isSelection = isChecked
@@ -81,10 +81,12 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
     override fun getItemCount(): Int = friendList.size
 
 
-    inner class Holder(view: View?) : RecyclerView.ViewHolder(view) {
+    /*inner class Holder(view: View?) : RecyclerView.ViewHolder(view) {
         val thumbnail = itemView.friend_i_thumb!!
         val friendSelectedView = itemView.friend_i_checkbox!!
         val nickNameView = itemView.friend_i_tv_name!!
         val emailView = itemView.friend_i_tv_email!!
-    }
+    }*/
+
+    inner class Holder(view: View) : AndroidExtensionsViewHolder(view)
 }

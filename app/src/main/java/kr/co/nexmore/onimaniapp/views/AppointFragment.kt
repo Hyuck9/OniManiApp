@@ -52,7 +52,7 @@ class AppointFragment : Fragment() {
 
     /** 리사이클러뷰 초기 셋팅 */
     private fun initRecyclerView() {
-        appoint_f_rv_meet_list.apply {
+        appoint_f_rv_meet_list.run {
             layoutManager = GridLayoutManager(activity, 2)
             adapter = mAppointListAdapter
 
