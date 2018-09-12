@@ -93,17 +93,17 @@ class SignupActivity : AppCompatActivity() {
                             .putFile(imageUri!!)
                             .addOnCompleteListener { taskSnapshot: Task<UploadTask.TaskSnapshot> ->
                                 if ( taskSnapshot.isSuccessful ) {
-                                    taskSnapshot.result.storage.downloadUrl.addOnSuccessListener {
+                                    taskSnapshot.result.storage.downloadUrl.addOnSuccessListener { uri ->
                                         val user = User()
-                                        user.profileUrl = it.toString()
+                                        user.profileUrl = uri.toString()
                                         user.email = email
                                         user.uid = uid
                                         user.nickName = name
                                         user.joinedDate = DateUtil.currentDate
 
-                                        FirebaseDatabase.getInstance().getReference("users").child(uid).setValue(user).addOnCompleteListener {
+                                        FirebaseDatabase.getInstance().getReference("users").child(uid).setValue(user).addOnCompleteListener { task ->
                                             //TODO: 로딩 프로그레스 만들기
-                                            if ( it.isSuccessful ) {
+                                            if ( task.isSuccessful ) {
                                                 this@SignupActivity.finish()
                                             } else {
                                                 Toast.makeText(this, "가입 실패 (DB 오류)", Toast.LENGTH_SHORT).show()

@@ -51,29 +51,27 @@ class FriendListAdapter : RecyclerView.Adapter<FriendListAdapter.Holder>() {
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        friendList[position].let { friend ->
-            with(holder) {
-                friend_i_tv_name.text = friend.nickName
-                friend_i_tv_email.text = friend.email
-                friend.profileUrl?.let { url ->
-                    Glide.with(itemView)
-                            .load(url)
-                            // .apply(RequestOptions().circleCrop()) // RoundedImageView 사용으로 인해 해당 옵션 사용 안함
-                            .into(friend_i_thumb)
-                }
+        val friend = friendList[position]
+        with(holder) {
+            friend_i_tv_name.text = friend.nickName
+            friend_i_tv_email.text = friend.email
+            friend.profileUrl?.let { url ->
+                Glide.with(itemView)
+                        .load(url)
+                        // .apply(RequestOptions().circleCrop()) // RoundedImageView 사용으로 인해 해당 옵션 사용 안함
+                        .into(friend_i_thumb)
+            }
 
-                friend_i_checkbox.run {
-                    isChecked = friend.isSelection
-                    setOnCheckedChangeListener { _, isChecked ->
-                        friend.isSelection = isChecked
-                    }
-                    visibility = if ( getSelectionMode() == UN_SELECTION_MODE ) {
-                        View.GONE
-                    } else {
-                        View.VISIBLE
-                    }
+            friend_i_checkbox.run {
+                isChecked = friend.isSelection
+                setOnCheckedChangeListener { _, isChecked ->
+                    friend.isSelection = isChecked
                 }
-
+                visibility = if ( getSelectionMode() == UN_SELECTION_MODE ) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
             }
         }
     }

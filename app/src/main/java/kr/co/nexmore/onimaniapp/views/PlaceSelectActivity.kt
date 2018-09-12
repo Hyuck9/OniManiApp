@@ -28,6 +28,7 @@ class PlaceSelectActivity : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_place_select)
 
+        @Suppress("UNCHECKED_CAST")
         mFriendList = intent.getSerializableExtra("myFriends") as MutableList<User>
 
         place_select_a_map_view.setMapViewEventListener(this)
@@ -155,7 +156,7 @@ class PlaceSelectActivity : AppCompatActivity(), MapReverseGeoCoder.ReverseGeoCo
         val mapPointGeo = mapView!!.mapCenterPoint.mapPointGeoCoord
         mLatitude = mapPointGeo.latitude
         mLongitude = mapPointGeo.longitude
-        mReverseGeoCoder = MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView!!.mapCenterPoint, this, this)
+        mReverseGeoCoder = MapReverseGeoCoder(getString(R.string.kakao_app_key), mapView.mapCenterPoint, this, this)
         mReverseGeoCoder.startFindingAddress()
     }
 }

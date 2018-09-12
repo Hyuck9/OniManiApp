@@ -10,7 +10,7 @@ class User : Serializable {
     var profileUrl: String? = null
     var joinedDate: String? = null
     var isSelection: Boolean = false
-    var latitude: Double? = 0.0
-    var longitude: Double? = 0.0
-    var memberIndex: Int? = null
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
+    var memberIndex: Int = 0
 }

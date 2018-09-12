@@ -41,6 +41,7 @@ class CreateRoomActivity : AppCompatActivity() {
         mAllUserDBRef = mFirebaseDatabase.getReference("users")
         mMyMeetsDBRef = mFirebaseDatabase.getReference("users").child(mCurrentUser.uid).child("meets")
 
+        @Suppress("UNCHECKED_CAST")
         mFriendList = intent.getSerializableExtra("myFriends") as MutableList<User>
         mAddress = intent.getStringExtra("address")
         mLongitude = intent.getDoubleExtra("longitude", 0.0)

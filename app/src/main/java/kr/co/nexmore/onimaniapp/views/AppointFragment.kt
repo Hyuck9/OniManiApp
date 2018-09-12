@@ -36,7 +36,7 @@ class AppointFragment : Fragment() {
         mCurrentUser = FirebaseAuth.getInstance().currentUser!!
         mFirebaseDatabase = FirebaseDatabase.getInstance()
 
-        mMeetsDBRef = mFirebaseDatabase.getReference("users").child(mCurrentUser.uid).child("meets");
+        mMeetsDBRef = mFirebaseDatabase.getReference("users").child(mCurrentUser.uid).child("meets")
         mMemberDBRef = mFirebaseDatabase.getReference("meet_members")
 
         mAppointListAdapter = AppointListAdapter()

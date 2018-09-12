@@ -27,7 +27,7 @@ class LoginActivity : AppCompatActivity() {
         window.statusBarColor = Color.parseColor(splashBackground)
 
         // 로그인 인터페이스 리스너
-        mAuthStateListener = FirebaseAuth.AuthStateListener {
+        mAuthStateListener = FirebaseAuth.AuthStateListener { _ ->
             // mFirebaseAuth.currentUser != null 작업 수행 (Safe calls + let 사용)
             mFirebaseAuth.currentUser?.let {
                 startActivity(Intent(this, MainActivity::class.java))

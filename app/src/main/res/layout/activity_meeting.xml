@@ -5,4 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".views.MeetingActivity">
 
+    <net.daum.mf.map.api.MapView
+        android:id="@+id/meeting_a_mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>
