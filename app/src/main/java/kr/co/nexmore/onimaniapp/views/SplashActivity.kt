@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.WindowManager
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -14,6 +15,12 @@ import kr.co.nexmore.onimaniapp.BuildConfig
 import kr.co.nexmore.onimaniapp.R
 
 class SplashActivity : AppCompatActivity() {
+
+    companion object {
+        init {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        }
+    }
 
     private lateinit var mFirebaseRemoteConfig: FirebaseRemoteConfig
 

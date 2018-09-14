@@ -41,6 +41,7 @@ class MeetingActivity : AppCompatActivity() {
     private val mMemberMarkerList = mutableListOf<MapPOIItem>()
     private val mThumbnailList = mutableListOf<Bitmap?>()
 
+    private var density: Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,7 @@ class MeetingActivity : AppCompatActivity() {
 
         val meetId = intent.getStringExtra("meet_id")
 
+        density = getDeviceDensity()
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         mCurrentUser = FirebaseAuth.getInstance().currentUser!!
@@ -192,7 +194,7 @@ class MeetingActivity : AppCompatActivity() {
             override fun onChildAdded(snapshot: DataSnapshot, s: String?) {
                 val user = snapshot.getValue(User::class.java)!!
                 val bitmap = BitmapFactory.decodeResource(resources, R.drawable.hg_icon)
-                val memberMarker = createMarker(user, bitmap)
+                val memberMarker = createMarker(user, bitmap, MapPOIItem())
                 mMemberMarkerList.add(memberMarker)
                 mThumbnailList.add(null)
 //                showMemberMarker(user.memberIndex)
@@ -204,7 +206,7 @@ class MeetingActivity : AppCompatActivity() {
                 val user = snapshot.getValue(User::class.java)!!
 
                 if ( mThumbnailList[user.memberIndex] != null ) {
-                    mMemberMarkerList[user.memberIndex] = createMarker(user, mThumbnailList[user.memberIndex]!!)
+                    mMemberMarkerList[user.memberIndex] = createMarker(user, mThumbnailList[user.memberIndex]!!, mMemberMarkerList[user.memberIndex])
                     showMemberMarker(user.memberIndex)
                 } else {
                     downloadTask.execute(user)
@@ -241,35 +243,43 @@ class MeetingActivity : AppCompatActivity() {
     }*/
 
 
-    private fun createMarker(user: User, bitmap: Bitmap): MapPOIItem {
-        return MapPOIItem().apply {
+    private fun createMarker(user: User, bitmap: Bitmap?, item: MapPOIItem): MapPOIItem {
+        return item.apply {
             itemName = user.nickName
             tag = 1
             mapPoint = MapPoint.mapPointWithGeoCoord(user.latitude, user.longitude)
             markerType = MapPOIItem.MarkerType.CustomImage
-            customImageBitmap = bitmap
+            customImageBitmap = getMemberMarkerImage(bitmap)
             isCustomImageAutoscale = false
-            setCustomImageAnchor(0.5F, 0.5F)
+            setCustomImageAnchor(0.5F, 1F)
         }
     }
 
-    override fun onPause() {
-        downloadTask.cancel(true)
-        super.onPause()
+    override fun onDestroy() {
+        if ( downloadTask.status == AsyncTask.Status.RUNNING ) {
+            downloadTask.cancel(true)
+        }
+        super.onDestroy()
     }
 
     @SuppressLint("StaticFieldLeak")
     val downloadTask = object: AsyncTask<User, Int, Int>() {
         override fun doInBackground(vararg params: User?): Int {
+            var bitmap:Bitmap? = null
             val user = params[0]!!
-            val url = URL(user.profileUrl)
-            val bitmap = BitmapFactory.decodeStream(url.content as InputStream?)
 
-            val memberMarker = createMarker(user, bitmap)
-            mMemberMarkerList[user.memberIndex] = memberMarker
+            try {
+                val url = URL(user.profileUrl)
+                bitmap = BitmapFactory.decodeStream(url.content as InputStream?)
+            } catch (e: IOException) {
+                e.stackTrace
+            }
+
+            mMemberMarkerList[user.memberIndex] = createMarker(user, bitmap, mMemberMarkerList[user.memberIndex])
             mThumbnailList[user.memberIndex] = bitmap
 
             return user.memberIndex
+
         }
 
         override fun onPostExecute(result: Int?) {
@@ -277,5 +287,65 @@ class MeetingActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 멤버 마커 이미지 Bitmap으로 가져오기
+     */
+    private fun getMemberMarkerImage(image: Bitmap?): Bitmap {
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.icon_map_person_on).copy(Bitmap.Config.ARGB_8888, true)
 
+        val w = bitmap.width / 1.36 // 넓이 가져오기
+        val h = bitmap.height / 1.36 // 높이 가져오기
+
+        // copyBitmap에 들어갈 이미지의 사이즈를 재정의
+        val reSizeBitmap = if (image != null) {
+            Bitmap.createScaledBitmap(image, w.toInt(), h.toInt(), true)
+        } else {
+            Bitmap.createScaledBitmap(
+                    BitmapFactory.decodeResource(resources, R.drawable.hg_icon), w.toInt(), h.toInt(),
+                    true)
+        }
+
+        val left = 8 * density
+        val top = left - 1
+
+        val canvas = Canvas(bitmap)
+
+        canvas.drawBitmap(setRoundCorner(reSizeBitmap!!), left, top, null) // canvas1에 reSizeBitmap를 그리는 옵션
+        return bitmap
+    }
+
+    /**
+     * Bitmap 둥글게
+     */
+    private fun setRoundCorner(bitmap: Bitmap): Bitmap {
+        val output = Bitmap.createBitmap(bitmap.width, bitmap.height,
+                Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(output)
+
+        val roundPx = density * 75
+
+        val color = -0xbdbdbe
+        val paint = Paint()
+        val rect = Rect(0, 0, bitmap.width, bitmap.height)
+        val rectF = RectF(rect)
+
+        paint.isAntiAlias = true
+        paint.color = color
+        canvas.drawARGB(0, 0, 0, 0)
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint)
+
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        canvas.drawBitmap(bitmap, rect, rect, paint)
+
+        return output
+    }
+
+    /**
+     * 단말 density 값 얻기
+     */
+    private fun getDeviceDensity(): Float {
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.density
+    }
 }
